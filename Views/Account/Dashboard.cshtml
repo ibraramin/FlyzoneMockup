@@ -317,11 +317,23 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const sidebar = document.getElementById('sidebar');
+            const wrapper = document.getElementById('wrapper');
             
             // Desktop Collapse Logic
             const desktopToggleBtn = document.getElementById('sidebarCollapseDesktop');
             desktopToggleBtn.addEventListener('click', function() {
                 sidebar.classList.toggle('collapsed');
+                wrapper.classList.toggle('sidebar-collapsed');
+                
+                // Toggle icon between bars and bars-staggered
+                const icon = desktopToggleBtn.querySelector('i');
+                if (sidebar.classList.contains('collapsed')) {
+                    icon.classList.remove('fa-bars-staggered');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-bars-staggered');
+                }
             });
 
             // Mobile Off-Canvas Logic
