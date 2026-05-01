@@ -1,0 +1,94 @@
+@{
+    ViewData["Title"] = "Register - Flyzone";
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/flyzone-auth.css" asp-append-version="true" />
+</head>
+<body>
+    
+    <a href="@Url.Action("Index", "Home")" class="back-to-home">
+        <i class="fa-solid fa-arrow-left me-2"></i> Back to Home
+    </a>
+
+    <div class="auth-wrapper">
+        <!-- Notice the extra 'register-card' class for a wider layout -->
+        <div class="auth-card register-card">
+            <div class="auth-header">
+                <a href="@Url.Action("Index", "Home")" class="brand-logo">
+                    <i class="fa-solid fa-feather-pointed me-2" style="color: var(--fz-green);"></i>FLY<span>ZONE</span>
+                </a>
+                <p class="text-muted small mb-0">Create your secure account</p>
+            </div>
+
+            <div class="auth-body">
+                <form asp-controller="Account" asp-action="Register" method="post">
+                    
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="firstNameInput" name="FirstName" placeholder="John" required>
+                                <label for="firstNameInput"><i class="fa-regular fa-user me-2 text-muted"></i>First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="lastNameInput" name="LastName" placeholder="Doe" required>
+                                <label for="lastNameInput"><i class="fa-regular fa-user me-2 text-muted"></i>Last Name</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="emailRegInput" name="Email" placeholder="name@example.com" required>
+                                <label for="emailRegInput"><i class="fa-regular fa-envelope me-2 text-muted"></i>Email</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="tel" class="form-control" id="phoneInput" name="PhoneNumber" placeholder="+971 50 123 4567" required>
+                                <label for="phoneInput"><i class="fa-solid fa-phone me-2 text-muted"></i>Phone Number</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="passwordRegInput" name="Password" placeholder="Password" required>
+                                <label for="passwordRegInput"><i class="fa-solid fa-lock me-2 text-muted"></i>Password</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="confirmPasswordInput" name="ConfirmPassword" placeholder="Confirm Password" required>
+                                <label for="confirmPasswordInput"><i class="fa-solid fa-shield-check me-2 text-muted"></i>Confirm Password</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-auth-primary w-100 mb-3">
+                        <i class="fa-solid fa-user-plus me-2"></i> Create Account
+                    </button>
+
+                    <div class="text-center auth-links mt-3">
+                        <span class="text-muted small">Already have an account?</span> 
+                        <a href="@Url.Action("Login", "Account")">Sign in here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
