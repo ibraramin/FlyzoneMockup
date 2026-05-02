@@ -1,0 +1,291 @@
+/* --- flyzone-dashboard.css --- */
+:root {
+    --fz-green: #00732F;
+    --fz-red: #FF0000;
+    --fz-black: #1A1A1A;
+    --fz-white: #FFFFFF;
+    --fz-silver: #E0E0E0;
+    --fz-bg: #F4F7F6;
+}
+
+body {
+    background-color: var(--fz-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+/* --- Layout Wrapper --- */
+#wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* Sidebar collapsed state - wrapper adjusts */
+#wrapper.sidebar-collapsed #sidebar {
+    min-width: 80px;
+    max-width: 80px;
+}
+
+#wrapper.sidebar-collapsed #sidebar .sidebar-header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+#wrapper.sidebar-collapsed #sidebar .brand-text,
+#wrapper.sidebar-collapsed #sidebar ul li a .nav-text {
+    display: none;
+}
+
+#wrapper.sidebar-collapsed #sidebar ul li a {
+    justify-content: center;
+    padding: 15px 0;
+}
+
+#wrapper.sidebar-collapsed #sidebar ul li a i {
+    margin-right: 0 !important;
+    font-size: 1.4rem;
+}
+
+#wrapper.sidebar-collapsed #sidebar .sidebar-footer {
+    padding: 20px 10px;
+}
+
+#wrapper.sidebar-collapsed #sidebar .sidebar-footer .btn span {
+    display: none;
+}
+
+#wrapper.sidebar-collapsed #sidebar .sidebar-footer .btn i {
+    margin-right: 0 !important;
+}
+
+/* --- Sidebar --- */
+#sidebar {
+    min-width: 260px;
+    max-width: 260px;
+    background: var(--fz-black);
+    color: var(--fz-white);
+    min-height: 100vh;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+}
+
+/* Sidebar Standard Elements */
+.sidebar-header {
+    padding: 20px;
+    background: var(--fz-black);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar-header .brand-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--fz-white);
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+.sidebar-header .brand-logo .brand-text span { color: var(--fz-red); }
+
+#sidebar ul.components {
+    padding: 15px 0;
+    flex-grow: 1;
+}
+
+#sidebar ul li a {
+    padding: 12px 20px;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    color: #a0a0a0;
+    text-decoration: none;
+    transition: 0.3s;
+    border-left: 4px solid transparent;
+    white-space: nowrap;
+}
+
+#sidebar ul li a i {
+    width: 30px;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-right: 10px;
+}
+
+#sidebar ul li a:hover {
+    color: var(--fz-white);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+#sidebar ul li.active > a {
+    color: var(--fz-white);
+    background: var(--fz-green);
+    border-left: 4px solid var(--fz-white);
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Main Content --- */
+#content {
+    width: 100%;
+    min-height: 100vh;
+    transition: all 0.3s;
+    flex-grow: 1;
+}
+
+/* When sidebar is collapsed, content expands */
+#sidebar.collapsed ~ #content {
+    margin-left: 0;
+    width: 100%;
+}
+
+.top-navbar {
+    background: var(--fz-white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 15px 25px;
+}
+
+/* --- Cards --- */
+.dash-card {
+    background: var(--fz-white);
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    height: 100%;
+    transition: transform 0.2s;
+}
+
+.dash-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.card-action-required {
+    border-left: 5px solid var(--fz-red);
+    background: #fffafa;
+}
+
+/* --- Progress Bar Widget --- */
+.tracker-wrapper {
+    position: relative;
+    padding: 20px 0 10px;
+}
+
+.tracker-line {
+    position: absolute;
+    top: 35px;
+    left: 10%;
+    width: 80%;
+    height: 4px;
+    background: var(--fz-silver);
+    z-index: 1;
+}
+
+.tracker-line-progress {
+    position: absolute;
+    top: 35px;
+    left: 10%;
+    width: 35%; 
+    height: 4px;
+    background: var(--fz-green);
+    z-index: 2;
+    transition: width 0.5s;
+}
+
+.step-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 3;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--fz-white);
+    border: 4px solid var(--fz-silver);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #999;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+
+.step-item.completed .step-circle {
+    background: var(--fz-green);
+    border-color: var(--fz-green);
+    color: var(--fz-white);
+}
+
+.step-item.active .step-circle {
+    border-color: var(--fz-green);
+    color: var(--fz-green);
+    box-shadow: 0 0 0 5px rgba(0, 115, 47, 0.2);
+}
+
+.step-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #666;
+    text-align: center;
+}
+
+.step-item.active .step-label { color: var(--fz-green); }
+.step-item.completed .step-label { color: var(--fz-black); }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 991px) {
+    #sidebar {
+        margin-left: -260px;
+        position: fixed;
+        height: 100vh;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    /* Disable desktop collapse behavior on mobile - always show full sidebar */
+    #wrapper.sidebar-collapsed #sidebar {
+        min-width: 260px;
+        max-width: 260px;
+    }
+    #wrapper.sidebar-collapsed #sidebar .brand-text,
+    #wrapper.sidebar-collapsed #sidebar ul li a .nav-text,
+    #wrapper.sidebar-collapsed #sidebar .sidebar-footer .btn span {
+        display: inline;
+    }
+    #wrapper.sidebar-collapsed #sidebar ul li a i {
+        margin-right: 10px !important;
+        font-size: 1.2rem;
+    }
+    
+    .overlay {
+        display: none;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        top: 0;
+        left: 0;
+    }
+    .overlay.active {
+        display: block;
+    }
+}
