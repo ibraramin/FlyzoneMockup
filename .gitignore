@@ -1,9 +1,26 @@
+# Build outputs
 bin/
 obj/
+Release/
 publish/
 publish.zip
+
+# IDE
 .vscode/
+.idea/
 *.user
 *.suo
-.idea/
+
+# Logs
 *.log
+
+# Database (local dev - use Docker volume in production)
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+App_Data/
+wwwroot/uploads/
+
+# Tooling
+dotnet-tools.json

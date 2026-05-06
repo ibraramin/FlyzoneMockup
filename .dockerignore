@@ -1,0 +1,31 @@
+# Exclude build outputs
+bin/
+obj/
+
+# Exclude git
+.git/
+.gitignore
+
+# Exclude local database files (do NOT copy local test data into container)
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+
+# Exclude IDE and editor files
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Exclude Docker files
+Dockerfile
+docker-compose.yml
+
+# Exclude test and CI files
+TestResults/
+*.log
+
+# Exclude publish and release folders (we rebuild in container)
+publish/
+Release/

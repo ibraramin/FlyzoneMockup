@@ -1,0 +1,106 @@
+@model DrivingLicenseViewModel
+@{
+    ViewData["Title"] = "Driving License Renewal - Flyzone";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/flyzone-auth.css" asp-append-version="true" />
+    <style>
+        .form-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .form-header h2 {
+            color: var(--fz-dark);
+            font-weight: 600;
+        }
+        .service-info {
+            background: linear-gradient(135deg, var(--fz-green) 0%, #1a8a5a 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="@Url.Action("Dashboard", "Account")" class="back-to-home">
+        <i class="fa-solid fa-arrow-left me-2"></i> Back to Dashboard
+    </a>
+
+    <div class="auth-wrapper">
+        <div class="form-card">
+            <div class="form-header">
+                <a href="@Url.Action("Index", "Home")" class="brand-logo d-block text-center mb-3">
+                    <i class="fa-solid fa-feather-pointed me-2" style="color: var(--fz-green);"></i>FLY<span>ZONE</span>
+                </a>
+                <h2><i class="fa-solid fa-car me-2"></i>Driving License Renewal</h2>
+                <p class="text-muted small mb-0">Renew your UAE driving license</p>
+            </div>
+
+            <div class="service-info">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="fa-solid fa-tag me-2"></i>Service Fee: AED 320</span>
+                    <span class="badge bg-light text-dark">RTA & Traffic</span>
+                </div>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <form asp-controller="Services" asp-action="DrivingLicense" method="post">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="TrafficFileNumber" class="form-control" id="trafficFileInput" placeholder="Traffic File Number">
+                            <label for="trafficFileInput"><i class="fa-solid fa-folder me-2 text-muted"></i>Traffic File Number</label>
+                            <span asp-validation-for="TrafficFileNumber" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="EyeTestCenterName" class="form-control" id="eyeTestInput" placeholder="Eye Test Center Name">
+                            <label for="eyeTestInput"><i class="fa-solid fa-eye me-2 text-muted"></i>Eye Test Center Name</label>
+                            <span asp-validation-for="EyeTestCenterName" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="form-floating">
+                        <input asp-for="CurrentLicenseExpiry" class="form-control" id="expiryInput" placeholder="Current License Expiry" type="date">
+                        <label for="expiryInput"><i class="fa-regular fa-calendar me-2 text-muted"></i>Current License Expiry Date</label>
+                        <span asp-validation-for="CurrentLicenseExpiry" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-auth-primary w-100 mb-3">
+                    <i class="fa-solid fa-paper-plane me-2"></i> Submit Application
+                </button>
+
+                <div class="text-center">
+                    <span class="text-muted small">After submission, you'll receive a confirmation and can track your application status.</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

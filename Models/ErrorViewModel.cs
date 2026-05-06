@@ -1,4 +1,4 @@
-namespace FlyzoneMockup.Models;
+namespace Flyzone.Models;
 
 public class ErrorViewModel
 {

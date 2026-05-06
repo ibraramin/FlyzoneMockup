@@ -1,7 +1,8 @@
+@model DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
-    Layout = null; 
-    var userName = TempData["Name"] as string ?? "Valued Client";
+    Layout = null;
+    var userName = Model?.FirstName ?? "Valued Client";
 }
 
 <!DOCTYPE html>
@@ -17,12 +18,11 @@
 </head>
 <body>
 
-    <!-- Mobile Overlay -->
     <div class="overlay" id="sidebarOverlay"></div>
 
     <div id="wrapper">
         
-        <!-- 1. Sidebar Navigation -->
+        <!-- Sidebar Navigation -->
         <nav id="sidebar">
             <div class="sidebar-header">
                 <a href="@Url.Action("Index", "Home")" class="brand-logo d-flex align-items-center justify-content-center justify-content-lg-start">
@@ -36,7 +36,10 @@
                     <a href="#" title="Dashboard"><i class="fa-solid fa-border-all"></i> <span class="nav-text">Dashboard</span></a>
                 </li>
                 <li>
-                    <a href="#" title="Start New Application"><i class="fa-solid fa-file-signature"></i> <span class="nav-text">New Application</span></a>
+                    <a href="@Url.Action("GoldenVisa", "Services")" title="Golden Visa Application"><i class="fa-solid fa-passport"></i> <span class="nav-text">Golden Visa</span></a>
+                </li>
+                <li>
+                    <a href="@Url.Action("DrivingLicense", "Services")" title="Driving License Renewal"><i class="fa-solid fa-car"></i> <span class="nav-text">Driving License</span></a>
                 </li>
                 <li>
                     <a href="#" title="My Documents"><i class="fa-solid fa-folder-closed"></i> <span class="nav-text">My Documents</span></a>
@@ -53,17 +56,18 @@
             </ul>
 
             <div class="sidebar-footer mt-auto">
-                <!-- Log Out -->
-                <a href="@Url.Action("Index", "Home")" class="btn btn-danger w-100 d-flex align-items-center justify-content-center" title="Log Out">
-                    <i class="fa-solid fa-right-from-bracket me-2"></i> <span>Log Out</span>
-                </a>
+                <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                    <button type="submit" class="btn btn-danger w-100 d-flex align-items-center justify-content-center" title="Log Out">
+                        <i class="fa-solid fa-right-from-bracket me-2"></i> <span>Log Out</span>
+                    </button>
+                </form>
             </div>
         </nav>
 
         <!-- Main Content Area -->
         <div id="content">
             
-            <!-- 2. Top Navbar -->
+            <!-- Top Navbar -->
             <nav class="navbar top-navbar mb-4">
                 <div class="container-fluid">
                     <!-- Desktop Sidebar Toggle -->
@@ -82,7 +86,7 @@
 
                     <div class="d-flex align-items-center ms-auto gap-3 gap-md-4">
                         
-                        <!-- Language Toggle (Moved to Top Navbar) -->
+                        <!-- Language Toggle -->
                         <div class="dropdown d-none d-sm-block">
                             <button class="btn btn-light bg-transparent border-0 fw-semibold dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
                                 <i class="fa-solid fa-globe me-2 text-secondary"></i> EN
@@ -125,8 +129,6 @@
 
             <div class="container-fluid px-4 pb-4">
                 
-                <!-- 3. Dashboard Overview -->
-
                 <!-- Top Row: Quick Stats -->
                 <div class="row g-4 mb-4">
                     <div class="col-sm-6 col-xl-3">
@@ -134,7 +136,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted small mb-1 fw-semibold">Total Applications</p>
-                                    <h3 class="mb-0 fw-bold">5</h3>
+                                    <h3 class="mb-0 fw-bold">@Model.TotalApplications</h3>
                                 </div>
                                 <div class="bg-light p-3 rounded-circle text-primary">
                                     <i class="fa-solid fa-file-lines fs-4"></i>
@@ -148,7 +150,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted small mb-1 fw-semibold">In Progress</p>
-                                    <h3 class="mb-0 fw-bold">2</h3>
+                                    <h3 class="mb-0 fw-bold">@Model.InProgress</h3>
                                 </div>
                                 <div class="bg-light p-3 rounded-circle text-warning">
                                     <i class="fa-solid fa-spinner fs-4"></i>
@@ -158,14 +160,13 @@
                     </div>
 
                     <div class="col-sm-6 col-xl-3">
-                        <!-- Highlighted Card -->
-                        <div class="card dash-card p-3 card-action-required">
+                        <div class="card dash-card p-3 @(Model.ActionRequired > 0 ? "card-action-required" : "")">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <p class="text-danger small mb-1 fw-bold">Action Required</p>
-                                    <h3 class="mb-0 fw-bold text-danger">1</h3>
+                                    <p class="text-muted small mb-1 fw-semibold">Action Required</p>
+                                    <h3 class="mb-0 fw-bold">@Model.ActionRequired</h3>
                                 </div>
-                                <div class="bg-danger-subtle p-3 rounded-circle text-danger">
+                                <div class="bg-light p-3 rounded-circle text-danger">
                                     <i class="fa-solid fa-circle-exclamation fs-4"></i>
                                 </div>
                             </div>
@@ -177,7 +178,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted small mb-1 fw-semibold">Completed</p>
-                                    <h3 class="mb-0 fw-bold">2</h3>
+                                    <h3 class="mb-0 fw-bold">@Model.Completed</h3>
                                 </div>
                                 <div class="bg-success-subtle p-3 rounded-circle" style="color: var(--fz-green);">
                                     <i class="fa-solid fa-check-double fs-4"></i>
@@ -193,33 +194,60 @@
                         <div class="card dash-card p-4">
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <h5 class="fw-bold mb-0">Current Application Status</h5>
-                                <span class="badge bg-dark px-3 py-2">Golden Visa Application</span>
+                                @if (Model.CurrentActiveApplication != null)
+                                {
+                                    <span class="badge bg-dark px-3 py-2">@Model.CurrentActiveApplication.ServiceName</span>
+                                }
                             </div>
                             
-                            <!-- Visual Progress Bar -->
-                            <div class="tracker-wrapper">
-                                <div class="tracker-line"></div>
-                                <div class="tracker-line-progress"></div>
-                                
-                                <div class="step-container">
-                                    <div class="step-item completed">
-                                        <div class="step-circle"><i class="fa-solid fa-check"></i></div>
-                                        <div class="step-label">Submitted</div>
-                                    </div>
-                                    <div class="step-item active">
-                                        <div class="step-circle"><i class="fa-solid fa-file-circle-check"></i></div>
-                                        <div class="step-label">Under Review</div>
-                                    </div>
-                                    <div class="step-item">
-                                        <div class="step-circle"><i class="fa-solid fa-credit-card"></i></div>
-                                        <div class="step-label">Waiting Payment</div>
-                                    </div>
-                                    <div class="step-item">
-                                        <div class="step-circle"><i class="fa-solid fa-flag-checkered"></i></div>
-                                        <div class="step-label">Completed</div>
+                            @if (Model.CurrentActiveApplication != null)
+                            {
+                                <div class="tracker-wrapper">
+                                    <div class="tracker-line"></div>
+                                    @{
+                                        var status = Model.CurrentActiveApplication.Status;
+                                        var submittedClass = status >= ApplicationStatus.Submitted ? "completed" : "";
+                                        var reviewClass = status >= ApplicationStatus.UnderReview ? (status == ApplicationStatus.Submitted ? "active" : "completed") : "";
+                                        var paymentClass = status >= ApplicationStatus.WaitingPayment ? (status == ApplicationStatus.UnderReview ? "active" : "completed") : "";
+                                        var completedClass = status >= ApplicationStatus.Completed ? (status == ApplicationStatus.WaitingPayment ? "active" : "completed") : "";
+                                    }
+                                    <div class="tracker-line-progress" style="width: @(status == ApplicationStatus.Submitted ? "5%" : status == ApplicationStatus.UnderReview ? "35%" : status == ApplicationStatus.WaitingPayment ? "65%" : status == ApplicationStatus.Completed || status == ApplicationStatus.ActionRequired ? "100%" : "0%")"></div>
+                                    
+                                    <div class="step-container">
+                                        <div class="step-item @submittedClass">
+                                            <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                                            <div class="step-label">Submitted</div>
+                                        </div>
+                                        <div class="step-item @reviewClass">
+                                            <div class="step-circle"><i class="fa-solid fa-file-circle-check"></i></div>
+                                            <div class="step-label">Under Review</div>
+                                        </div>
+                                        <div class="step-item @paymentClass">
+                                            <div class="step-circle"><i class="fa-solid fa-credit-card"></i></div>
+                                            <div class="step-label">Waiting Payment</div>
+                                        </div>
+                                        <div class="step-item @completedClass">
+                                            <div class="step-circle"><i class="fa-solid fa-flag-checkered"></i></div>
+                                            <div class="step-label">Completed</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="text-center py-5">
+                                    <i class="fa-solid fa-folder-open text-muted fs-1 mb-3"></i>
+                                    <p class="text-muted mb-3">No active applications</p>
+                                    <div class="d-flex justify-content-center gap-3">
+                                        <a href="@Url.Action("GoldenVisa", "Services")" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-passport me-2"></i> Apply for Golden Visa
+                                        </a>
+                                        <a href="@Url.Action("DrivingLicense", "Services")" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-car me-2"></i> Driving License
+                                        </a>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -233,39 +261,52 @@
                                 <h6 class="fw-bold mb-0">Recent Activity</h6>
                             </div>
                             <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-borderless table-hover align-middle mb-0">
-                                        <thead class="bg-light text-muted small">
-                                            <tr>
-                                                <th class="ps-4 py-3 fw-semibold">Application Type</th>
-                                                <th class="py-3 fw-semibold">Date Submitted</th>
-                                                <th class="pe-4 py-3 fw-semibold">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="border-bottom">
-                                                <td class="ps-4 py-3 fw-semibold">Service 1</td>
-                                                <td class="py-3 text-muted">May 01, 2026</td>
-                                                <td class="pe-4 py-3"><span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Approved</span></td>
-                                            </tr>
-                                            <tr class="border-bottom bg-danger-subtle bg-opacity-10">
-                                                <td class="ps-4 py-3 fw-semibold">Service 2</td>
-                                                <td class="py-3 text-muted">Apr 28, 2026</td>
-                                                <td class="pe-4 py-3"><span class="badge bg-danger rounded-pill shadow-sm">Requires Action</span></td>
-                                            </tr>
-                                            <tr class="border-bottom">
-                                                <td class="ps-4 py-3 fw-semibold">Service 3</td>
-                                                <td class="py-3 text-muted">Apr 20, 2026</td>
-                                                <td class="pe-4 py-3"><span class="badge bg-warning-subtle text-dark border border-warning-subtle rounded-pill">Pending</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-4 py-3 fw-semibold">Service 4</td>
-                                                <td class="py-3 text-muted">Mar 15, 2026</td>
-                                                <td class="pe-4 py-3"><span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Approved</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                @if (Model.RecentActivity.Any())
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless table-hover align-middle mb-0">
+                                            <thead class="bg-light text-muted small">
+                                                <tr>
+                                                    <th class="ps-4 py-3 fw-semibold">Application Type</th>
+                                                    <th class="py-3 fw-semibold">Date Submitted</th>
+                                                    <th class="pe-4 py-3 fw-semibold">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.RecentActivity)
+                                                {
+                                                    <tr class="border-bottom">
+                                                        <td class="ps-4 py-3 fw-semibold">@item.ApplicationType</td>
+                                                        <td class="py-3 text-muted">@item.DateSubmitted.ToString("MMM dd, yyyy")</td>
+                                                        <td class="pe-4 py-3">
+                                                            @{
+                                                                var badgeClass = item.Status switch
+                                                                {
+                                                                    "Submitted" => "bg-info",
+                                                                    "UnderReview" => "bg-warning",
+                                                                    "ActionRequired" => "bg-danger",
+                                                                    "WaitingPayment" => "bg-primary",
+                                                                    "Completed" => "bg-success",
+                                                                    "Rejected" => "bg-secondary",
+                                                                    _ => "bg-secondary"
+                                                                };
+                                                            }
+                                                            <span class="badge @badgeClass rounded-pill">@item.Status</span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-center py-5">
+                                        <i class="fa-solid fa-clipboard-list text-muted fs-1 mb-3"></i>
+                                        <p class="text-muted">No applications yet</p>
+                                        <a href="@Url.Action("GoldenVisa", "Services")" class="btn btn-primary btn-sm">Start Your First Application</a>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -274,31 +315,33 @@
                     <div class="col-lg-4">
                         <div class="card dash-card h-100">
                             <div class="card-header bg-white border-bottom p-4">
-                                <h6 class="fw-bold mb-0">Action Center</h6>
+                                <h6 class="fw-bold mb-0">Quick Actions</h6>
                             </div>
                             <div class="card-body d-flex flex-column gap-3 p-4">
                                 
-                                <button class="btn btn-outline-danger w-100 text-start py-3 px-4 d-flex align-items-center rounded-3">
-                                    <i class="fa-solid fa-cloud-arrow-up fs-4 me-3"></i>
+                                <a href="@Url.Action("GoldenVisa", "Services")" class="btn btn-outline-primary w-100 text-start py-3 px-4 d-flex align-items-center rounded-3">
+                                    <i class="fa-solid fa-passport fs-4 me-3"></i>
                                     <div>
-                                        <h6 class="mb-0 fw-bold">Upload Missing Document</h6>
-                                        <small class="text-muted">Identity proof required</small>
+                                        <h6 class="mb-0 fw-bold">Golden Visa</h6>
+                                        <small class="text-muted">10-year residency visa</small>
                                     </div>
                                     <i class="fa-solid fa-chevron-right ms-auto"></i>
-                                </button>
+                                </a>
 
-                                <button class="btn btn-outline-dark w-100 text-start py-3 px-4 d-flex align-items-center rounded-3">
-                                    <i class="fa-solid fa-car-burst fs-4 text-warning me-3"></i>
+                                <a href="@Url.Action("DrivingLicense", "Services")" class="btn btn-outline-dark w-100 text-start py-3 px-4 d-flex align-items-center rounded-3">
+                                    <i class="fa-solid fa-car fs-4 me-3"></i>
                                     <div>
-                                        <h6 class="mb-0 fw-bold">Check Traffic Fines</h6>
-                                        <small class="text-muted">Quick inquiry</small>
+                                        <h6 class="mb-0 fw-bold">Driving License</h6>
+                                        <small class="text-muted">Renew your license</small>
                                     </div>
                                     <i class="fa-solid fa-chevron-right ms-auto"></i>
-                                </button>
+                                </a>
                                 
                                 <div class="mt-auto pt-3 border-top text-center">
                                     <small class="text-muted d-block mb-2">Need immediate assistance?</small>
-                                    <a href="#" class="btn btn-dark w-100">Contact Support</a>
+                                    <a href="https://wa.me/971543149939" target="_blank" class="btn btn-success w-100">
+                                        <i class="fa-brands fa-whatsapp me-2"></i> Contact Support
+                                    </a>
                                 </div>
 
                             </div>
@@ -310,22 +353,18 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Sidebar Toggle Script -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const sidebar = document.getElementById('sidebar');
             const wrapper = document.getElementById('wrapper');
             
-            // Desktop Collapse Logic
             const desktopToggleBtn = document.getElementById('sidebarCollapseDesktop');
             desktopToggleBtn.addEventListener('click', function() {
                 sidebar.classList.toggle('collapsed');
                 wrapper.classList.toggle('sidebar-collapsed');
                 
-                // Toggle icon between bars and bars-staggered
                 const icon = desktopToggleBtn.querySelector('i');
                 if (sidebar.classList.contains('collapsed')) {
                     icon.classList.remove('fa-bars-staggered');
@@ -336,7 +375,6 @@
                 }
             });
 
-            // Mobile Off-Canvas Logic
             const overlay = document.getElementById('sidebarOverlay');
             const mobileToggleBtn = document.getElementById('sidebarCollapseMobile');
 
@@ -346,7 +384,7 @@
             }
 
             mobileToggleBtn.addEventListener('click', toggleMobileSidebar);
-            overlay.addEventListener('click', toggleMobileSidebar); // Clicking outside closes it
+            overlay.addEventListener('click', toggleMobileSidebar);
         });
     </script>
 </body>

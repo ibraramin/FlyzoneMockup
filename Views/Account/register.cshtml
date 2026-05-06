@@ -1,6 +1,7 @@
+@model RegisterViewModel
 @{
     ViewData["Title"] = "Register - Flyzone";
-    Layout = null; 
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -20,7 +21,6 @@
     </a>
 
     <div class="auth-wrapper">
-        <!-- Notice the extra 'register-card' class for a wider layout -->
         <div class="auth-card register-card">
             <div class="auth-header">
                 <a href="@Url.Action("Index", "Home")" class="brand-logo">
@@ -30,19 +30,23 @@
             </div>
 
             <div class="auth-body">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
                 <form asp-controller="Account" asp-action="Register" method="post">
                     
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="firstNameInput" name="FirstName" placeholder="John" required>
+                                <input asp-for="FirstName" class="form-control" id="firstNameInput" placeholder="John">
                                 <label for="firstNameInput"><i class="fa-regular fa-user me-2 text-muted"></i>First Name</label>
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="lastNameInput" name="LastName" placeholder="Doe" required>
+                                <input asp-for="LastName" class="form-control" id="lastNameInput" placeholder="Doe">
                                 <label for="lastNameInput"><i class="fa-regular fa-user me-2 text-muted"></i>Last Name</label>
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
@@ -50,14 +54,16 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="email" class="form-control" id="emailRegInput" name="Email" placeholder="name@example.com" required>
+                                <input asp-for="Email" class="form-control" id="emailRegInput" placeholder="name@example.com">
                                 <label for="emailRegInput"><i class="fa-regular fa-envelope me-2 text-muted"></i>Email</label>
+                                <span asp-validation-for="Email" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="tel" class="form-control" id="phoneInput" name="PhoneNumber" placeholder="+971 50 123 4567" required>
+                                <input asp-for="PhoneNumber" class="form-control" id="phoneInput" placeholder="+971 50 123 4567">
                                 <label for="phoneInput"><i class="fa-solid fa-phone me-2 text-muted"></i>Phone Number</label>
+                                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
@@ -65,14 +71,16 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="password" class="form-control" id="passwordRegInput" name="Password" placeholder="Password" required>
+                                <input asp-for="Password" class="form-control" id="passwordRegInput" placeholder="Password">
                                 <label for="passwordRegInput"><i class="fa-solid fa-lock me-2 text-muted"></i>Password</label>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="password" class="form-control" id="confirmPasswordInput" name="ConfirmPassword" placeholder="Confirm Password" required>
+                                <input asp-for="ConfirmPassword" class="form-control" id="confirmPasswordInput" placeholder="Confirm Password">
                                 <label for="confirmPasswordInput"><i class="fa-solid fa-shield-check me-2 text-muted"></i>Confirm Password</label>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>

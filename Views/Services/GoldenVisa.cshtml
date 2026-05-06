@@ -1,0 +1,124 @@
+@model GoldenVisaViewModel
+@{
+    ViewData["Title"] = "Golden Visa Application - Flyzone";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/flyzone-auth.css" asp-append-version="true" />
+    <style>
+        .form-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .form-header h2 {
+            color: var(--fz-dark);
+            font-weight: 600;
+        }
+        .service-info {
+            background: linear-gradient(135deg, var(--fz-green) 0%, #1a8a5a 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="@Url.Action("Dashboard", "Account")" class="back-to-home">
+        <i class="fa-solid fa-arrow-left me-2"></i> Back to Dashboard
+    </a>
+
+    <div class="auth-wrapper">
+        <div class="form-card">
+            <div class="form-header">
+                <a href="@Url.Action("Index", "Home")" class="brand-logo d-block text-center mb-3">
+                    <i class="fa-solid fa-feather-pointed me-2" style="color: var(--fz-green);"></i>FLY<span>ZONE</span>
+                </a>
+                <h2><i class="fa-solid fa-passport me-2"></i>Golden Visa Application</h2>
+                <p class="text-muted small mb-0">Apply for 10-year UAE residency visa</p>
+            </div>
+
+            <div class="service-info">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="fa-solid fa-tag me-2"></i>Service Fee: AED 2,800</span>
+                    <span class="badge bg-light text-dark">Golden Visa</span>
+                </div>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <form asp-controller="Services" asp-action="GoldenVisa" method="post">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="PassportNumber" class="form-control" id="passportInput" placeholder="Passport Number">
+                            <label for="passportInput"><i class="fa-solid fa-passport me-2 text-muted"></i>Passport Number</label>
+                            <span asp-validation-for="PassportNumber" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="CurrentEmiratesId" class="form-control" id="emiratesIdInput" placeholder="Emirates ID (Optional)">
+                            <label for="emiratesIdInput"><i class="fa-solid fa-id-card me-2 text-muted"></i>Current Emirates ID (Optional)</label>
+                            <span asp-validation-for="CurrentEmiratesId" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="Profession" class="form-control" id="professionInput" placeholder="Profession">
+                            <label for="professionInput"><i class="fa-solid fa-briefcase me-2 text-muted"></i>Profession</label>
+                            <span asp-validation-for="Profession" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input asp-for="MonthlySalary" class="form-control" id="salaryInput" placeholder="Monthly Salary" type="number" step="0.01">
+                            <label for="salaryInput"><i class="fa-solid fa-money-bill-wave me-2 text-muted"></i>Monthly Salary (AED)</label>
+                            <span asp-validation-for="MonthlySalary" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="form-check">
+                        <input asp-for="IsInvestorCategory" class="form-check-input" id="investorCheck">
+                        <label class="form-check-label" for="investorCheck">
+                            <i class="fa-solid fa-chart-line me-1"></i> I am applying under the Investor Category
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-auth-primary w-100 mb-3">
+                    <i class="fa-solid fa-paper-plane me-2"></i> Submit Application
+                </button>
+
+                <div class="text-center">
+                    <span class="text-muted small">After submission, you'll receive a confirmation and can track your application status.</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
