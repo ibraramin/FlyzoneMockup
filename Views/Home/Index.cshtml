@@ -1,0 +1,332 @@
+﻿@{
+    ViewData["Title"] = "Home - Flyzone Tourism & Typing Services";
+}
+
+@section Styles {
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="~/css/flyzone-landing.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+}
+
+<!-- 1. Custom Header / Navigation Bar -->
+<nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+    <div class="container-fluid px-4 px-lg-5"> <!-- Wider container for the nav -->
+        
+        <!-- Logo Area -->
+        <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
+            <i class="fa-solid fa-feather-pointed me-2" style="color: var(--fz-green); font-size: 2.2rem;"></i>
+            FLY<span>ZONE</span>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Navigation Links (Aligned closer to the brand) -->
+            <ul class="navbar-nav me-auto ms-lg-5 mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Our Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact Us</a>
+                </li>
+            </ul>
+            
+            <!-- Right-aligned Controls -->
+            <div class="d-flex align-items-center gap-3">
+                <!-- Language Toggle -->
+                <div class="dropdown">
+                    <button class="lang-dropdown-btn dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-globe"></i> EN
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="langDropdown">
+                        <li><a class="dropdown-item" href="#">English</a></li>
+                        <li><a class="dropdown-item" href="#">العربية</a></li>
+                        <li><a class="dropdown-item" href="#">বাংলা</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Authentication Buttons -->
+                <a href="@Url.Action("Login", "Account")" class="btn-login text-decoration-none">Login</a>
+                <a href="@Url.Action("Register", "Account")" class="btn-register text-decoration-none">Register</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- 2. Hero Section -->
+<section class="hero-section">
+
+    <div id="map-container"></div>
+    
+    <div class="hero-overlay-fade"></div>
+
+
+
+    
+    <div class="container hero-content text-center text-lg-start">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h2 class="hero-subtitle"><i class="fa-solid fa-bolt me-2"></i> Fast • Reliable • Professional Service</h2>
+                <h1 class="hero-title mb-4">Your Trusted Partner for<br />Typing & Tourism in UAE</h1>
+                <p class="lead mb-4 fw-normal text-secondary">Expert document clearing, visa processing, and corporate services serving clients across the Middle East and South Asia.</p>
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                    <a href="#services" class="btn btn-register btn-lg px-4 py-3"><i class="fa-solid fa-layer-group me-2"></i> Explore Our Services</a>
+                    <a href="@Url.Action("Track", "Document")" class="btn btn-login btn-lg px-4 py-3 bg-white"><i class="fa-solid fa-magnifying-glass me-2"></i> Track Your Document</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. Services Section -->
+<section id="services" class="py-5">
+    <div class="container py-4">
+        <h2 class="section-title">Our Core Services</h2>
+        <div class="row g-4">
+            
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card p-4">
+                    <i class="fa-solid fa-passport service-icon"></i>
+                    <h4 class="fw-bold mb-3">Service 1 </h4>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> Sub Service a</li>
+                        <li><i class="fa-solid fa-check"></i> Sub Service b</li>
+                        <li><i class="fa-solid fa-check"></i> Sub Service c</li>
+                        <li><i class="fa-solid fa-check"></i> Sub Service d</li>
+                        <li><i class="fa-solid fa-check"></i> Sub Service e</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card p-4">
+                    <i class="fa-solid fa-briefcase service-icon"></i>
+                    <h4 class="fw-bold mb-3">Service 2</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> Sub Service a</li>
+                        <li><i class="fa-solid fa-check"></i> Sub Service b</li>
+                        <li><i class="fa-solid fa-check"></i> Sub Service c</li>
+                        <li><i class="fa-solid fa-check"></i> Sub Service d</li>
+                    </ul>
+                </div>
+            </div>
+<div class="col-md-6 col-lg-4">
+                <div class="card service-card p-4">
+                    <i class="fa-solid fa-building service-icon"></i>
+                    <h4 class="fw-bold mb-3">Service 3</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> Service a</li>
+                        <li><i class="fa-solid fa-check"></i> Service b</li>
+                        <li><i class="fa-solid fa-check"></i> Service c</li>
+                        <li><i class="fa-solid fa-check"></i> Service d</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card p-4">
+                    <i class="fa-solid fa-users service-icon"></i>
+                    <h4 class="fw-bold mb-3">Service 4</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> Service a</li>
+                        <li><i class="fa-solid fa-check"></i> Service b</li>
+                        <li><i class="fa-solid fa-check"></i> Service c</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card service-card p-4">
+                    <i class="fa-solid fa-file-signature service-icon"></i>
+                    <h4 class="fw-bold mb-3">Service 5</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> Service a</li>
+                        <li><i class="fa-solid fa-check"></i> Service b</li>
+                        <li><i class="fa-solid fa-check"></i> Service c</li>
+                        <li><i class="fa-solid fa-check"></i> Service d</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="card service-card p-4">
+                            <i class="fa-solid fa-car service-icon" style="font-size: 1.8rem; margin-bottom: 0.5rem;"></i>
+                            <h5 class="fw-bold mb-2">Other Services</h5>
+                            <p class="small text-muted mb-0">The quick brown fox jumps over the lazy dogThe quick brown fox jumps over the lazy dog.</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card service-card p-4">
+                            <i class="fa-solid fa-plane-departure service-icon" style="font-size: 1.8rem; margin-bottom: 0.5rem;"></i>
+                            <h5 class="fw-bold mb-2">Other Other Services</h5>
+                            <p class="small text-muted mb-0">The quick brown fox jumps over the lazy dogThe quick brown fox jumps over the lazy dog.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 4. About Us -->
+<section id="about" class="py-5 features-section">
+    <div class="container py-4">
+        <h2 class="section-title">Why Choose Flyzone?</h2>
+        <div class="row text-center">
+            
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4>Secure Handling</h4>
+                    <p class="text-muted small">Encrypted document uploads and strict privacy protocols.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-bars-progress"></i>
+                    </div>
+                    <h4>Real-time Tracking</h4>
+                    <p class="text-muted small">Monitor your application status live through our portal.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+                    <h4>Instant Scheduling</h4>
+                    <p class="text-muted small">Live schedule lookups with no prior appointment required.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fa-regular fa-file-lines"></i>
+                    </div>
+                    <h4>Custom Forms</h4>
+                    <p class="text-muted small">Streamlined digital templates for all official paperwork.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 5. Footer -->
+<footer id="contact">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <h4 class="text-white fw-bold mb-3 d-flex align-items-center">
+                    <i class="fa-solid fa-feather-pointed me-2" style="color: var(--fz-green);"></i>
+                    FLY<span style="color: var(--fz-red);">ZONE</span>
+                </h4>
+                <p class="small text-light pe-4">Flyzone Tourism & Typing Services (Fly Zone Businessman Service). Your premier destination for Fast, Reliable, and Professional documentation services in the UAE.</p>
+                
+                <div class="social-icons mt-4">
+                    <a href="https://wa.me/971543149939" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="mailto:flyzon.uae@gmail.com" title="Email"><i class="fa-regular fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-2"><a href="@Url.Action("Login", "Account")"><i class="fa-solid fa-chevron-right me-2" style="font-size: 10px; color: var(--fz-red);"></i> Login</a></li>
+                    <li class="mb-2"><a href="@Url.Action("Register", "Account")"><i class="fa-solid fa-chevron-right me-2" style="font-size: 10px; color: var(--fz-red);"></i> Register</a></li>
+                    <li class="mb-2"><a href="#services"><i class="fa-solid fa-chevron-right me-2" style="font-size: 10px; color: var(--fz-red);"></i> Our Services</a></li>
+                    <li class="mb-2"><a href="@Url.Action("Schedule", "Appointments")"><i class="fa-solid fa-chevron-right me-2" style="font-size: 10px; color: var(--fz-red);"></i> Schedule Lookup</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled text-small">
+                    <li class="mb-3 d-flex">
+                        <i class="fa-solid fa-location-dot mt-1 me-3" style="color: var(--fz-green);"></i>
+                        <span>Rumaila-1, Karama,<br />Ajman – UAE</span>
+                    </li>
+                    <li class="mb-3 d-flex">
+                        <i class="fa-solid fa-phone mt-1 me-3" style="color: var(--fz-green);"></i>
+                        <span>054 314 9939</span>
+                    </li>
+                    <li class="mb-3 d-flex">
+                        <i class="fa-solid fa-envelope mt-1 me-3" style="color: var(--fz-green);"></i>
+                        <span>flyzon.uae@gmail.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <hr style="border-color: #333;" />
+        
+        <div class="row mt-3">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="small text-light mb-0">&copy; @DateTime.Now.Year Flyzone Tourism & Typing Services. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                <p class="small text-muted mb-0">Powered by .NET Core MVC</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // Initialize the Leaflet map
+        // Centered between UAE and South Asia
+        const map = L.map('map-container', {
+            zoomControl: false // Hides the default +/- buttons for a cleaner hero section
+        }).setView([24.0, 65.0], 4.5);
+
+        // Add CartoDB Positron (Light) tile layer - 100% Free, no tokens needed
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+
+        // Note: Leaflet uses [Latitude, Longitude] instead of Mapbox's [Lng, Lat]
+        const locations = [
+            { name: 'Dubai', latLng: [25.2048, 55.2708], type: 'red' },
+            { name: 'Ajman', latLng: [25.4052, 55.4481], type: 'red' },
+            { name: 'Saudi Arabia', latLng: [23.8859, 45.0792], type: 'red' },
+            { name: 'Qatar', latLng: [25.2854, 51.5310], type: 'red' },
+            { name: 'India', latLng: [20.5937, 78.9629], type: 'red' },
+            { name: 'Bangladesh', latLng: [23.8103, 90.4125], type: 'red' }
+        ];
+
+        // Create HTML markers and add them to the map
+        locations.forEach(loc => {
+            // Leaflet allows us to inject raw HTML via divIcon
+            const customIcon = L.divIcon({
+                className: 'custom-leaflet-icon', // Wrapper class
+                html: `<div class="map-dot dot-${loc.type}"><span class="map-label">${loc.name}</span></div>`,
+                iconSize: [14, 14],
+                iconAnchor: [7, 7] // Centers the dot perfectly on the coordinate
+            });
+
+            L.marker(loc.latLng, { icon: customIcon }).addTo(map);
+        });
+
+    </script>
+}

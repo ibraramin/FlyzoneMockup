@@ -1,0 +1,377 @@
+/* --- flyzone-landing.css --- */
+:root {
+    --fz-green: #00732F; /* UAE Deep Green */
+    --fz-red: #FF0000;   /* UAE Bold Red */
+    --fz-black: #1A1A1A; /* Dark top border color */
+    --fz-white: #FFFFFF;
+    --fz-silver: #E0E0E0;
+    --fz-light-bg: #F8F9FA;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--fz-black);
+    /* Set exactly to the height of the custom navbar to prevent overlaps or gaps */
+    padding-top: 90px; 
+    margin: 0;
+}
+
+/* --- Custom Navigation Bar --- */
+.custom-navbar {
+    background-color: var(--fz-white);
+    /* Dark thin line at the top, green thick line at the bottom to match your image */
+    border-top: 5px solid var(--fz-black);
+    border-bottom: 4px solid var(--fz-green);
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #000;
+    letter-spacing: 0.5px;
+}
+
+.navbar-brand span {
+    color: var(--fz-red);
+}
+
+.custom-navbar .nav-link {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #000 !important;
+    margin-right: 15px;
+    transition: color 0.2s ease-in-out;
+}
+
+.custom-navbar .nav-link:hover {
+    color: var(--fz-green) !important;
+}
+
+/* Auth Buttons */
+.btn-login {
+    color: #000;
+    background-color: var(--fz-white);
+    border: 1px solid #ccc;
+    font-weight: 600;
+    padding: 8px 24px;
+    border-radius: 6px;
+}
+
+.btn-login:hover {
+    background-color: #f1f1f1;
+}
+
+.btn-register {
+    background-color: var(--fz-red);
+    color: var(--fz-white);
+    border: none;
+    font-weight: 600;
+    padding: 8px 24px;
+    border-radius: 6px;
+}
+
+.btn-register:hover {
+    background-color: #cc0000;
+    color: var(--fz-white);
+}
+
+/* Language Dropdown */
+.lang-dropdown-btn {
+    border: 1px solid #ccc;
+    background-color: var(--fz-white);
+    color: #555;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+}
+
+.lang-dropdown-btn i {
+    margin-right: 5px;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    position: relative;
+    background-color: var(--fz-light-bg);
+    background-image: url('https://www.transparenttextures.com/patterns/world-map.png'); 
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 5px solid var(--fz-black);
+    margin-top: 0; /* Ensures it sits flush against the navbar */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+    z-index: 1;
+}
+
+.hero-overlay-fade {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* Fades from solid light-bg on the left, to transparent on the right */
+    background: linear-gradient(90deg, rgba(248,249,250,1) 0%, rgba(248,249,250,0.9) 45%, rgba(248,249,250,0.1) 100%);
+    z-index: 1;
+    pointer-events: none; /* Crucial: lets you click the map underneath */
+}
+
+.hero-content, .hero-content .row {
+    position: relative;
+    z-index: 3;
+    pointer-events: none; 
+}
+
+/* ...but only make the left column (text and buttons) clickable */
+.hero-content .col-lg-8 {
+    pointer-events: auto; 
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--fz-black);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--fz-green);
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+/* Map Markers */
+.map-markers-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.pulse-dot {
+    width: 12px; height: 12px;
+    background-color: var(--fz-red);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 0 10px var(--fz-red);
+    animation: pulse 2s infinite;
+}
+
+.pulse-dot::after {
+    content: attr(data-location);
+    position: absolute;
+    top: 15px; left: -10px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--fz-black);
+    background: rgba(255,255,255,0.8);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+/* Marker Locations */
+.dot-dubai { top: 50%; left: 55%; }
+.dot-ajman { top: 48%; left: 56%; background-color: var(--fz-green); animation: pulseGreen 2s infinite; }
+.dot-ksa { top: 55%; left: 45%; }
+.dot-qatar { top: 52%; left: 50%; }
+.dot-india { top: 60%; left: 75%; }
+.dot-bangladesh { top: 55%; left: 82%; }
+
+@keyframes pulseGreen {
+    0% { box-shadow: 0 0 0 0 rgba(0, 115, 47, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(0, 115, 47, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 115, 47, 0); }
+}
+
+/* --- Services & Utilities --- */
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 800;
+    color: var(--fz-black);
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--fz-green);
+    margin: 10px auto 0;
+}
+
+.service-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    background-color: var(--fz-white);
+    border-bottom: 4px solid transparent;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-bottom: 4px solid var(--fz-red);
+}
+
+.service-icon {
+    font-size: 2.5rem;
+    color: var(--fz-green);
+    margin-bottom: 1rem;
+}
+
+.service-card ul {
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.service-card ul li { margin-bottom: 0.5rem; }
+.service-card ul li i { color: var(--fz-red); font-size: 0.75rem; margin-right: 8px; }
+
+/* Features */
+.features-section { background-color: var(--fz-light-bg); }
+.feature-box { text-align: center; padding: 2rem; }
+.feature-icon {
+    width: 70px; height: 70px;
+    background-color: var(--fz-white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; color: var(--fz-green);
+    margin: 0 auto 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Footer */
+footer {
+    background-color: #1a1a1a;
+    color: var(--fz-silver);
+    padding: 4rem 0 2rem;
+}
+footer h5 { color: var(--fz-white); font-weight: 700; margin-bottom: 1.5rem; }
+footer a { color: var(--fz-silver); text-decoration: none; transition: color 0.3s; }
+footer a:hover { color: var(--fz-green); }
+.social-icons a {
+    display: inline-block;
+    width: 40px; height: 40px;
+    background-color: rgba(255,255,255,0.1);
+    color: var(--fz-white);
+    text-align: center; line-height: 40px;
+    border-radius: 50%; margin-right: 10px;
+    transition: all 0.3s;
+}
+.social-icons a:hover { background-color: var(--fz-red); transform: translateY(-3px); }
+
+/* Update container name */
+#map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* Remove Leaflet's default background/border from custom divIcons */
+.custom-leaflet-icon {
+    background: transparent;
+    border: none;
+}
+
+/* Keep your existing .map-dot, .dot-red, .dot-green animations */
+
+/* Adjust the label to center nicely under the Leaflet marker */
+.map-label {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%); /* This perfectly centers the text below the dot */
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--fz-black);
+    background: rgba(255,255,255,0.95);
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.map-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+}
+
+.dot-red {
+    background-color: var(--fz-red);
+    box-shadow: 0 0 10px var(--fz-red);
+    animation: pulseRed 2s infinite;
+}
+
+.dot-green {
+    background-color: var(--fz-green);
+    box-shadow: 0 0 10px var(--fz-green);
+    animation: pulseGreen 2s infinite;
+    z-index: 5; /* Keeps Ajman on top if zoomed out */
+}
+
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+@keyframes pulseGreen {
+    0% { box-shadow: 0 0 0 0 rgba(0, 115, 47, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(0, 115, 47, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 115, 47, 0); }
+}
+
+/* --- Custom Red Scrollbar --- */
+/* For Chrome, Edge, Safari, and Opera */
+::-webkit-scrollbar {
+    width: 12px; /* Width of the vertical scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: var(--fz-light-bg); /* A soft off-white background */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--fz-red); /* The UAE Red thumb */
+    border-radius: 10px; /* Gives it nice rounded edges */
+    border: 3px solid var(--fz-light-bg); /* Creates a "padded" look around the red thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #cc0000; /* Slightly darker red when hovered */
+}
+
+/* For Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--fz-red) var(--fz-light-bg);
+}
+
+/* Custom Animate.css delay classes for landing page */
+.animate__delay-1 { --animate-delay: 0.2s; }
+.animate__delay-2 { --animate-delay: 0.4s; }
+.animate__delay-3 { --animate-delay: 0.6s; }
