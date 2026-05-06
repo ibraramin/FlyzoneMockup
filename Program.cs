@@ -118,11 +118,11 @@ app.Use(async (context, next) =>
     // Content Security Policy (CSP)
     context.Response.Headers["Content-Security-Policy"] = 
         "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; " +
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; " +
         "img-src 'self' data: https:; " +
         "font-src 'self' https://cdnjs.cloudflare.com; " +
-        "connect-src 'self'; " +
+        "connect-src 'self' https://*.basemaps.cartocdn.com; " +
         "frame-ancestors 'none';";
     
     await next();

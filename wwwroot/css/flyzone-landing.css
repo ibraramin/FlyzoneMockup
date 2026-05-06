@@ -19,8 +19,7 @@ body {
 /* --- Custom Navigation Bar --- */
 .custom-navbar {
     background-color: var(--fz-white);
-    /* Dark thin line at the top, green thick line at the bottom to match your image */
-    border-top: 5px solid var(--fz-black);
+    /* Green thick line at the bottom - removed black bar */
     border-bottom: 4px solid var(--fz-green);
     padding-top: 15px;
     padding-bottom: 15px;
@@ -103,7 +102,7 @@ body {
     display: flex;
     align-items: center;
     overflow: hidden;
-    border-bottom: 5px solid var(--fz-black);
+    border-bottom: 4px solid var(--fz-green);
     margin-top: 0; /* Ensures it sits flush against the navbar */
 }
 

@@ -6,6 +6,7 @@
     --fz-green: #00732F;
     --fz-red: #FF0000;
     --fz-black: #1A1A1A;
+    --fz-dark: #1A1A1A;
     --fz-white: #FFFFFF;
     --fz-silver: #E0E0E0;
     --fz-light-bg: #F8F9FA;
@@ -51,7 +52,8 @@ body {
     text-align: center;
 }
 
-.auth-header .brand-logo {
+.auth-header .brand-logo,
+.form-header .brand-logo {
     font-size: 2rem;
     font-weight: 800;
     color: var(--fz-black);
@@ -60,7 +62,8 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.auth-header .brand-logo span {
+.auth-header .brand-logo span,
+.form-header .brand-logo span {
     color: var(--fz-red);
 }
 

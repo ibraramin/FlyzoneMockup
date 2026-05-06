@@ -2,7 +2,7 @@
 
 A modern ASP.NET Core MVC web application for managing tourism services and typing applications in the UAE. Built with security, scalability, and user experience in mind.
 
-![Flyzone Banner](https://via.placeholder.com/1200x400/1A1A1A/00732F?text=Flyzone+Tourism+%26+Typing+Services)
+![Flyzone Banner](imgs/Flyzone-Landing-Page.png)
 
 ---
 
@@ -103,6 +103,7 @@ FlyzoneMockup/
 │   ├── Services/
 │   └── Shared/
 ├── wwwroot/              # Static Assets
+├── imgs/                 # Images
 ├── Dockerfile            # Docker build configuration
 ├── docker-compose.yml    # Docker Compose configuration
 └── Program.cs            # Application entry point
@@ -132,16 +133,19 @@ FlyzoneMockup/
 ## 📸 Screenshots
 
 ### Login Page
-![Login](https://via.placeholder.com/800x500/00732F/FFFFFF?text=Login+Page)
+![Login](imgs/Flyzone-Login.png)
 
 ### Registration Page
-![Register](https://via.placeholder.com/800x500/00732F/FFFFFF?text=Registration+Page)
+![Register](imgs/Flyzone-Reg.png)
 
 ### Dashboard
-![Dashboard](https://via.placeholder.com/800x500/1A1A1A/00732F?text=Dashboard)
+![Dashboard](imgs/Flyzone-Dashboard.png)
 
-### Service Forms
-![Golden Visa](https://via.placeholder.com/800x500/00732F/FFFFFF?text=Golden+Visa+Form)
+### Golden Visa Form
+![Golden Visa](imgs/Flyzone-Golden-Visa.png)
+
+### Driving License Form
+![Driving License](imgs/Flyzone-Driving-License.png)
 
 ---
 
