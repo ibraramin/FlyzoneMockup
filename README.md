@@ -1,6 +1,8 @@
 # 🦅 Flyzone Tourism & Typing Services
 
-An ASP.NET Core 10 MVC application for UAE tourism/typing services: registration, two service application forms, a personal dashboard, and a secure document-upload endpoint.
+[![CI](https://github.com/ibraramin/FlyzoneMockup/actions/workflows/ci.yml/badge.svg)](https://github.com/ibraramin/FlyzoneMockup/actions/workflows/ci.yml)
+
+An ASP.NET Core 10 MVC application for UAE tourism/typing services: registration, two service application forms, a personal dashboard, a secure document-upload endpoint, and a role-gated admin review queue.
 
 > **Scope note:** this is a portfolio/demo application derived from an older client mockup, not a production service. Some UI affordances are still placeholders; they are listed under [Known limitations](#-known-limitations). Claims below are kept deliberately narrow so they can be checked by running the commands in this README.
 
@@ -25,6 +27,10 @@ An ASP.NET Core 10 MVC application for UAE tourism/typing services: registration
 ### 🗂️ Applicant workflow
 - Upload UI posting to the tested endpoint, an owner-scoped "My Documents" list, and an auth-gated download action (files live outside `wwwroot`).
 - Application details and a status-history timeline, linked from dashboard recent-activity rows; a Track page looks up an application by its reference.
+
+### 🛡️ Admin review queue
+- ASP.NET Core Identity roles with an `Admin` role requirement: a review queue with status/date filtering, application details, and a transactional status transition that appends an `ApplicationHistory` row and edits internal notes.
+- The applicant dashboard shows an "Admin Queue" link only to users in the `Admin` role. Non-admins are redirected to the access-denied path.
 
 ### 📊 Dashboard
 - Personalized welcome, application counts, an active-application progress card, and a recent-activity list.
@@ -70,6 +76,15 @@ dotnet run
 Open **http://localhost:5112** (HTTP launch profile). The HTTPS profile is `https://localhost:7035`.
 
 The SQLite database `flyzone.db` is created/migrated on first start and seeded with six active catalog services (Golden Visa, Driving License, Emirates ID, Work Permit, Business License, Document Attestation). Register a new account through `/Account/Register` to use the authenticated pages.
+
+**Demo accounts** (local `dotnet run` and the Compose container enable `DemoData:Enabled=true`; real deployments leave it off):
+
+| Role | Email | Password | What you can see |
+|---|---|---|---|
+| Applicant | `demo@flyzone.example` | `Demo@1234` | Three sample applications with status history, documents and Track results |
+| Admin | `admin@flyzone.example` | `Admin@1234` | `/Admin` review queue; change a status and watch the applicant timeline update |
+
+These accounts are public demo fixtures only — change or disable `DemoData` before exposing the app to untrusted users.
 
 ### Tests
 
@@ -137,9 +152,9 @@ FlyzoneMockup/
 |---|---|---|
 | ![Upload](imgs/Flyzone-Upload.png) | ![My Documents](imgs/Flyzone-MyDocuments.png) | ![Track](imgs/Flyzone-Track.png) |
 
-| Application details + timeline |
-|---|
-| ![Details](imgs/Flyzone-Application-Details.png) |
+| Application details + timeline | Admin review queue | Admin status transition |
+|---|---|---|
+| ![Details](imgs/Flyzone-Application-Details.png) | ![Admin queue](imgs/Flyzone-Admin-Queue.png) | ![Admin review](imgs/Flyzone-Admin-Review.png) |
 
 All screenshots were recaptured from a clean local database on 2026-11-27 after registration and a real Golden Visa submission. Each resume bullet is paired with a command that was actually run in [`docs/RESUME-EVIDENCE.md`](docs/RESUME-EVIDENCE.md).
 
@@ -148,8 +163,8 @@ All screenshots were recaptured from a clean local database on 2026-11-27 after 
 ## 🚧 Known limitations
 
 - The document-upload UI posts to the tested upload endpoint; document download is auth-gated so only the owner can retrieve a file.
-- Status history is rendered as a timeline on the Details and Track pages; there is still no admin/officer role to advance statuses.
-- Document management beyond upload/list/download (editing, sharing, versioning) is not implemented. Admin roles, appointments and password reset remain out of scope.
+- Status history is rendered as a timeline on the Details and Track pages, and an admin can now append transitions through the review queue. There is no workflow engine, approval chain or notification on transition.
+- Document management beyond upload/list/download (editing, sharing, versioning) is not implemented. Appointments and password reset remain out of scope.
 - Notifications, localization, and search/filter are not implemented.
 - The hero shows a stylized, self-contained region graphic rather than a live map; it requires no tile provider or API key.
 - CSP allows third-party CDN scripts required by the current UI; inline and eval scripts are forbidden. Self-hosting those assets is a future improvement.
@@ -162,13 +177,13 @@ See [`docs/GAMEPLAN.md`](docs/GAMEPLAN.md) for the finishing plan, [`docs/RESEAR
 
 ## 🤝 Contributing
 
-Contributions are not being accepted while ownership/publication permission for the original client code is being confirmed.
+Contributions are welcome. Please open an issue before large changes; keep `dotnet test -c Release --no-build` green.
 
 ---
 
 ## 📄 License
 
-**No license is currently granted.** The code originated as client work; publishing, relicensing, or redistribution requires the owner's written permission. The earlier "MIT" notice was inaccurate and has been removed pending that decision.
+Released under the [MIT License](LICENSE). Earlier drafts said "no license granted"; that notice was superseded when the owner approved publication.
 
 ---
 

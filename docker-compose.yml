@@ -16,6 +16,7 @@ services:
       - ConnectionStrings__DefaultConnection=Data Source=/app/Data/flyzone.db
       - DataProtection__KeysPath=/app/Data/keys
       - Uploads__Path=/app/Data/uploads
+      - DemoData__Enabled=true
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/"]

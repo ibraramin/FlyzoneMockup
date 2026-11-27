@@ -1,6 +1,6 @@
 # FlyzoneMockup — Finish & Portfolio Gameplan
 
-Status: **P5-C complete (2026-11-27).** Setup/planning in §0–§6; P1–P4 in §6b/§6c; P5-A in §8; P5-B in §9; P5-C in §10. All work is in one **local commit** (`git log -1`); no push.
+Status: **Release prepared for publication (2026-11-27).** Setup/planning in §0–§6; P1–P4 in §6b/§6c; P5-A in §8; P5-B in §9; P5-C in §10; roles/demo data/publication in §11. MIT license and `origin/main` are configured; use `git status`/`git log` for the current push state.
 Owner: orchestrator. Last updated: 2026-11-27.
 Source of truth: `https://github.com/ibraramin/FlyzoneMockup` @ `f7b7649` ("UI fixes and README update with screenshots", 2026-05-06).
 Local clone: `/home/shafin/Opencode/Flyzone/FlyzoneMockup` (clean working tree at `HEAD`; the original source commit is `f7b7649`).
@@ -202,6 +202,36 @@ At the end of P5-B: no commits (user approval required) — all work was later r
 
 ### 10.3 Final state
 
-P0–P6 packaging is complete and every phase has a runnable evidence table. Holds unchanged: no public publishing, no license grant, no admin roles, no demo-data seeding. The founder decision on publication/audience remains the only gate for the conditional admin feature (`docs/adr/0004`).
+P0–P6 packaging was complete at this point and every phase had a runnable evidence table. The holds listed above were **subsequently released** in §11 after the founder's publication/admin/demo-data decisions; `docs/adr/0006` supersedes `docs/adr/0004`.
 
 **Session signpost for any later work:** *"FlyzoneMockup — complete through P5-C; plans at `docs/GAMEPLAN.md` §9–§10, ADRs at `docs/adr/`, evidence at `docs/RESUME-EVIDENCE.md`; clone at `/home/shafin/Opencode/Flyzone/FlyzoneMockup`; SDK at `~/.dotnet`."*
+
+---
+
+## 11. Publication, Admin roles and demo data (2026-11-27 — verified)
+
+Founder decisions released the remaining holds: publish to GitHub with generic licensing and a viewer-friendly README; add Admin roles; demo-data policy delegated. `docs/adr/0006` supersedes ADR-0004.
+
+### 11.1 Claim → evidence
+
+| Claim | Command / artifact | Observed result |
+|---|---|---|
+| Identity roles work | code + `dotnet test -c Release --no-build --filter FullyQualifiedName~AdminFlowTests` | `.AddRoles<IdentityRole>()`; **5 passed** (admin list/details, non-admin denial/redirect, atomic status+history transition, antiforgery rejection, unknown-status rejection) |
+| Admin transition is atomic and auditable | `AdminController.Update` code + admin test | transaction wraps status change, notes and `ApplicationHistory` append; one `SaveChangesAsync` + `CommitAsync` |
+| Demo data is opt-in and safe by default | config inspection + test host overrides | `DemoData:Enabled=false` in `appsettings.json`, `true` in Development/Compose, `false` in `TestAppFactory`; public fixtures `demo@flyzone.example` / `admin@flyzone.example` with 3 sample applications and history |
+| Full suite still green | `dotnet build -c Release --no-restore -warnaserror`; `dotnet test -c Release --no-build` | **0 warnings / 0 errors**; **27 passed, 0 failed** |
+| Admin UI actually renders (screenshot gate) | `/var/tmp/opencode/shots/Flyzone-Admin-Queue.png`, `/var/tmp/opencode/shots/Flyzone-Admin-Review.png`; browser login as demo admin | images captured from the running app; visual inspection recorded in the verification note below |
+| Container with demo data | `docker compose -p flyzone-final up --build -d`; health; `curl -f localhost:5000/`; DB query; `docker compose -p flyzone-final down` | **healthy**; **HTTP 200**; 3 demo applications, 1 `Admin` role, 6 catalog services; container removed |
+| Viewer-friendly publication | `README.md`, `LICENSE`, `git remote -v`, `git status --porcelain` | MIT license, CI badge, demo-account table, admin screenshots; remote `origin` = `ibraramin/FlyzoneMockup`; clean tree before push |
+
+**Screenshot verification note (hard gate):** `/var/tmp/opencode/shots/Flyzone-Admin-Queue.png` was visually inspected and shows a styled queue with the status filter and exactly three seeded applications (UnderReview, WaitingPayment, Completed) for `demo@flyzone.example`. `/var/tmp/opencode/shots/Flyzone-Admin-Review.png` shows the review form with status select, comment, internal notes, Save Transition button and a two-entry Application Timeline. No blank page, error page, watermark or broken layout. Minor non-blocking observation: seeded applications have zero attached documents, so the seed comment "Documents received" is decorative only.
+
+### 11.2 What changed
+
+- `Program.cs`: role support + opt-in `DemoDataSeeder` invocation; `Data/DemoDataSeeder.cs` new.
+- `Controllers/AdminController.cs`, `Views/Admin/{Index,Details}.cshtml`: role-gated review queue and transactional transitions; dashboard admin link.
+- Config: `appsettings*.json`, `docker-compose.yml`, `TestAppFactory.cs` (demo flag).
+- `tests/FlyzoneMockup.Tests/AdminFlowTests.cs`: 5 new integration tests.
+- `LICENSE` (MIT), README (badge, demo accounts, admin section, screenshots), `docs/adr/0006`, `docs/RESUME-EVIDENCE.md`, this plan.
+
+**Final state:** release prepared for `origin/main` with MIT licensing and viewer-facing docs. No further work is queued; any future change should keep the build/test/screenshot gates green and add a new ADR for scope reversals.

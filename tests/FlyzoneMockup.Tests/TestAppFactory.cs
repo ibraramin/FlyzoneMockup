@@ -34,7 +34,8 @@ public sealed class TestAppFactory : WebApplicationFactory<Program>, IDisposable
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["ConnectionStrings:DefaultConnection"] = $"Data Source={DatabasePath}",
-                ["DataProtection:KeysPath"] = Path.Combine(_root, "keys")
+                ["DataProtection:KeysPath"] = Path.Combine(_root, "keys"),
+                ["DemoData:Enabled"] = "false"
             }));
     }
 

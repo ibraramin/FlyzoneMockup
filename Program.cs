@@ -75,6 +75,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 })
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Persist the Data Protection key ring so antiforgery tokens stay valid across
@@ -121,6 +122,21 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while applying migrations.");
         // A broken schema must never be served in Production. Development keeps
         // the tolerate-and-continue behaviour for local convenience.
+        if (!app.Environment.IsDevelopment())
+        {
+            throw;
+        }
+    }
+
+    try
+    {
+        // Opt-in demo accounts/applications: enabled for the local and container
+        // walkthrough, disabled by default so tests and real deployments stay clean.
+        await DemoDataSeeder.SeedAsync(scope.ServiceProvider, builder.Configuration, logger);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while seeding demo data.");
         if (!app.Environment.IsDevelopment())
         {
             throw;

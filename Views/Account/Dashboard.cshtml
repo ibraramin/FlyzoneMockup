@@ -47,6 +47,12 @@
                 <li>
                     <a href="@Url.Action("Track", "Services")" title="Track Status"><i class="fa-solid fa-magnifying-glass"></i> <span class="nav-text">Track Status</span></a>
                 </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "Admin")" title="Admin Review Queue"><i class="fa-solid fa-shield-halved"></i> <span class="nav-text">Admin Queue</span></a>
+                    </li>
+                }
             </ul>
 
             <div class="sidebar-footer mt-auto">
