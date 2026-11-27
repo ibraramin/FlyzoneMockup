@@ -9,7 +9,6 @@
 
 It is built for .NET developers, hiring teams, and anyone who wants a server-rendered MVC reference app with practical security controls that can be started with one command.
 
-[![Launch video](https://github.com/ibraramin/Flyzone/releases/download/v0.1.0/brag.jpg)](https://github.com/ibraramin/Flyzone/releases/download/v0.1.0/brag.mp4)
 
 ![Flyzone landing page](imgs/Flyzone-Landing-Page.png)
 
