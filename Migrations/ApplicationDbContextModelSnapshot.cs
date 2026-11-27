@@ -257,7 +257,7 @@ namespace FlyzoneMockup.Migrations
                             Id = 1,
                             BaseFee = 2800.00m,
                             Category = "Visa & Immigration",
-                            Description = "10-year residency visa processing.",
+                            Description = "10-year residency visa processing for investors and specialists.",
                             IsActive = true,
                             ServiceName = "Golden Visa Application"
                         },
@@ -266,9 +266,45 @@ namespace FlyzoneMockup.Migrations
                             Id = 2,
                             BaseFee = 320.00m,
                             Category = "RTA & Traffic",
-                            Description = "Renew your UAE driving license.",
+                            Description = "Renew your UAE driving license, including eye-test coordination.",
                             IsActive = true,
                             ServiceName = "Driving License Renewal"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BaseFee = 180.00m,
+                            Category = "Identity Documents",
+                            Description = "Renew or replace your Emirates ID with biometric capture.",
+                            IsActive = true,
+                            ServiceName = "Emirates ID Renewal"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BaseFee = 650.00m,
+                            Category = "Visa & Immigration",
+                            Description = "New work permits, visa transfers and cancellations.",
+                            IsActive = true,
+                            ServiceName = "Work Permit & Visa"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BaseFee = 1450.00m,
+                            Category = "Business Services",
+                            Description = "Company formation, trade-name reservation and license issuance.",
+                            IsActive = true,
+                            ServiceName = "Business License Setup"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BaseFee = 120.00m,
+                            Category = "Document Services",
+                            Description = "Certificate attestation, certified translation and courier handling.",
+                            IsActive = true,
+                            ServiceName = "Document Attestation"
                         });
                 });
 

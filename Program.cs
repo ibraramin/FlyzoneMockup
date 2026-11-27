@@ -1,5 +1,7 @@
 using Flyzone.Data;
 using Flyzone.Models;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +26,7 @@ builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = 429; // TooManyRequests
     
-    // Auth Rate Limit: 10 requests per minute per IP
+    // Auth Rate Limit: 10 requests per minute (global fixed window)
     options.AddFixedWindowLimiter("AuthRateLimit", limiterOptions =>
     {
         limiterOptions.PermitLimit = 10;
@@ -33,7 +35,7 @@ builder.Services.AddRateLimiter(options =>
         limiterOptions.QueueLimit = 0;
     });
 
-    // Form Submit Rate Limit: 5 requests per minute per IP
+    // Form Submit Rate Limit: 5 requests per minute (global fixed window)
     options.AddFixedWindowLimiter("FormSubmitLimit", limiterOptions =>
     {
         limiterOptions.PermitLimit = 5;
@@ -43,10 +45,10 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
-// Register SQLite Database
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Register SQLite Database. Resolve the connection string lazily so test hosts
+// can override it before the first DbContext is created.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register Identity (Users & Roles) with strict security
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -75,6 +77,31 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+// Persist the Data Protection key ring so antiforgery tokens stay valid across
+// container restarts (the default key store is ephemeral inside a container).
+var dataProtectionKeysPath = builder.Configuration["DataProtection:KeysPath"]
+    ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "FlyzoneMockup", "keys");
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath))
+    .SetApplicationName("FlyzoneMockup");
+
+// Harden the Identity application cookie. Secure cookies are only forced outside
+// Development so local HTTP and the integration-test host keep working.
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = ".Flyzone.Auth";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+        ? CookieSecurePolicy.SameAsRequest
+        : CookieSecurePolicy.Always;
+    options.ExpireTimeSpan = TimeSpan.FromDays(14);
+    options.SlidingExpiration = true;
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Home/Error";
+});
+
 var app = builder.Build();
 
 // --- Automatic Database Migration ---
@@ -92,6 +119,12 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         logger.LogError(ex, "An error occurred while applying migrations.");
+        // A broken schema must never be served in Production. Development keeps
+        // the tolerate-and-continue behaviour for local convenience.
+        if (!app.Environment.IsDevelopment())
+        {
+            throw;
+        }
     }
 }
 // -------------------------------------
@@ -115,14 +148,15 @@ app.Use(async (context, next) =>
     context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
     context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
     
-    // Content Security Policy (CSP)
+    // Content Security Policy (CSP). Page scripts are served from static files;
+    // inline/eval scripts are not allowed. CDNs are required by the current UI.
     context.Response.Headers["Content-Security-Policy"] = 
         "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; " +
-        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; " +
+        "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
         "img-src 'self' data: https:; " +
         "font-src 'self' https://cdnjs.cloudflare.com; " +
-        "connect-src 'self' https://*.basemaps.cartocdn.com; " +
+        "connect-src 'self'; " +
         "frame-ancestors 'none';";
     
     await next();
@@ -139,3 +173,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+// Exposed so integration tests can use WebApplicationFactory<Program>.
+public partial class Program { }

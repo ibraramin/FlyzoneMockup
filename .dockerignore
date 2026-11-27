@@ -12,6 +12,10 @@ obj/
 *.db-wal
 *.db-journal
 
+# Runtime bind-mount data: never part of the image build context
+App_Data/
+wwwroot/uploads/
+
 # Exclude IDE and editor files
 .vs/
 .vscode/

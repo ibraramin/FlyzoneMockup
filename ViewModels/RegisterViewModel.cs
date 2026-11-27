@@ -25,7 +25,7 @@ namespace Flyzone.ViewModels
         public string PhoneNumber { get; set; } = null!;
 
         [Required(ErrorMessage = "Password is required")]
-        [StringLength(100, ErrorMessage = "Password must be at least 6 characters", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Password must be at least 8 characters", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; } = null!;

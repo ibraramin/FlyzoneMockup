@@ -1,0 +1,77 @@
+@model ServiceApplication
+@{
+    var entries = Model.StatusHistory.OrderByDescending(h => h.Timestamp).ToList();
+}
+<section class="fz-timeline-card">
+    <h5 class="fw-bold mb-4">
+        <i class="fa-solid fa-clock-rotate-left me-2" style="color: var(--fz-green);"></i>Application Timeline
+    </h5>
+
+    @if (entries.Count == 0)
+    {
+        <p class="text-muted mb-0">No status updates have been recorded yet.</p>
+    }
+    else
+    {
+        <ol class="fz-timeline list-unstyled mb-0">
+            @foreach (var entry in entries)
+            {
+                <li class="fz-timeline-item">
+                    <span class="fz-timeline-marker"><i class="fa-solid fa-circle-check"></i></span>
+                    <div class="fz-timeline-body">
+                        <div class="d-flex flex-wrap justify-content-between gap-2">
+                            <strong>@entry.StatusState</strong>
+                            <time class="text-muted small" datetime="@(entry.Timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ"))">
+                                @entry.Timestamp.ToString("MMM dd, yyyy HH:mm")
+                            </time>
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(entry.Comments))
+                        {
+                            <p class="text-muted small mb-0 mt-1">@entry.Comments</p>
+                        }
+                    </div>
+                </li>
+            }
+        </ol>
+    }
+</section>
+
+<style>
+    .fz-timeline-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+    }
+    .fz-timeline {
+        border-left: 2px solid var(--fz-green);
+        margin-left: 0.6rem;
+        padding-left: 1.75rem;
+    }
+    .fz-timeline-item {
+        position: relative;
+        padding-bottom: 1.5rem;
+    }
+    .fz-timeline-item:last-child {
+        padding-bottom: 0;
+    }
+    .fz-timeline-marker {
+        position: absolute;
+        left: -2.35rem;
+        top: 0.1rem;
+        width: 1.4rem;
+        height: 1.4rem;
+        border-radius: 50%;
+        background: var(--fz-green);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+    }
+    .fz-timeline-body {
+        background: #f8faf9;
+        border-radius: 8px;
+        padding: 0.9rem 1.1rem;
+    }
+</style>

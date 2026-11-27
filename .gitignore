@@ -22,5 +22,4 @@ publish.zip
 App_Data/
 wwwroot/uploads/
 
-# Tooling
-dotnet-tools.json
+# Tooling manifest is intentionally tracked (dotnet-ef version pin).

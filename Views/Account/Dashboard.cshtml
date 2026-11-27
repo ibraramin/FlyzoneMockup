@@ -33,7 +33,7 @@
 
             <ul class="list-unstyled components mb-0">
                 <li class="active">
-                    <a href="#" title="Dashboard"><i class="fa-solid fa-border-all"></i> <span class="nav-text">Dashboard</span></a>
+                    <span title="Dashboard"><i class="fa-solid fa-border-all"></i> <span class="nav-text">Dashboard</span></span>
                 </li>
                 <li>
                     <a href="@Url.Action("GoldenVisa", "Services")" title="Golden Visa Application"><i class="fa-solid fa-passport"></i> <span class="nav-text">Golden Visa</span></a>
@@ -42,16 +42,10 @@
                     <a href="@Url.Action("DrivingLicense", "Services")" title="Driving License Renewal"><i class="fa-solid fa-car"></i> <span class="nav-text">Driving License</span></a>
                 </li>
                 <li>
-                    <a href="#" title="My Documents"><i class="fa-solid fa-folder-closed"></i> <span class="nav-text">My Documents</span></a>
+                    <a href="@Url.Action("MyDocuments", "Services")" title="My Documents"><i class="fa-solid fa-folder-open"></i> <span class="nav-text">My Documents</span></a>
                 </li>
                 <li>
-                    <a href="#" title="Track Status"><i class="fa-solid fa-satellite-dish"></i> <span class="nav-text">Track Status</span></a>
-                </li>
-                <li>
-                    <a href="#" title="Schedule Lookup"><i class="fa-regular fa-calendar-check"></i> <span class="nav-text">Schedule Lookup</span></a>
-                </li>
-                <li>
-                    <a href="#" title="Support & Contact"><i class="fa-solid fa-headset"></i> <span class="nav-text">Support & Contact</span></a>
+                    <a href="@Url.Action("Track", "Services")" title="Track Status"><i class="fa-solid fa-magnifying-glass"></i> <span class="nav-text">Track Status</span></a>
                 </li>
             </ul>
 
@@ -92,9 +86,9 @@
                                 <i class="fa-solid fa-globe me-2 text-secondary"></i> EN
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
-                                <li><a class="dropdown-item active" href="#">English</a></li>
-                                <li><a class="dropdown-item" href="#">العربية</a></li>
-                                <li><a class="dropdown-item" href="#">বাংলা</a></li>
+                                <li><span class="dropdown-item-text active">English</span></li>
+                                <li><span class="dropdown-item-text text-muted">العربية</span></li>
+                                <li><span class="dropdown-item-text text-muted">বাংলা</span></li>
                             </ul>
                         </div>
 
@@ -103,24 +97,22 @@
                             <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp Support
                         </a>
                         
-                        <!-- Quick Action: Notifications -->
-                        <div class="position-relative" style="cursor: pointer;">
-                            <i class="fa-regular fa-bell fs-5 text-secondary"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
-                                <span class="visually-hidden">New alerts</span>
-                            </span>
-                        </div>
-                        
                         <!-- User Profile -->
                         <div class="dropdown">
-                            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                            <button type="button" class="btn btn-link p-0 border-0 bg-transparent d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-label="User menu">
                                 <img src="https://ui-avatars.com/api/?name=@userName&background=1A1A1A&color=fff" alt="User Avatar" width="38" height="38" class="rounded-circle border border-2 border-white shadow-sm">
-                            </a>
+                            </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
-                                <li><a class="dropdown-item" href="#">Profile Settings</a></li>
-                                <li><a class="dropdown-item d-sm-none" href="#"><i class="fa-solid fa-globe me-2"></i> Change Language</a></li>
+                                <li><span class="dropdown-item-text">Profile Settings</span></li>
+                                <li><span class="dropdown-item-text d-sm-none"><i class="fa-solid fa-globe me-2"></i> Change Language</span></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="@Url.Action("Index", "Home")"><i class="fa-solid fa-right-from-bracket me-2"></i>Log Out</a></li>
+                                <li>
+                                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                        <button type="submit" class="dropdown-item text-danger border-0 bg-transparent w-100 text-start">
+                                            <i class="fa-solid fa-right-from-bracket me-2"></i>Log Out
+                                        </button>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -136,7 +128,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted small mb-1 fw-semibold">Total Applications</p>
-                                    <h3 class="mb-0 fw-bold">@Model.TotalApplications</h3>
+                                    <h3 class="mb-0 fw-bold">@(Model?.TotalApplications ?? 0)</h3>
                                 </div>
                                 <div class="bg-light p-3 rounded-circle text-primary">
                                     <i class="fa-solid fa-file-lines fs-4"></i>
@@ -150,7 +142,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted small mb-1 fw-semibold">In Progress</p>
-                                    <h3 class="mb-0 fw-bold">@Model.InProgress</h3>
+                                    <h3 class="mb-0 fw-bold">@(Model?.InProgress ?? 0)</h3>
                                 </div>
                                 <div class="bg-light p-3 rounded-circle text-warning">
                                     <i class="fa-solid fa-spinner fs-4"></i>
@@ -160,11 +152,11 @@
                     </div>
 
                     <div class="col-sm-6 col-xl-3">
-                        <div class="card dash-card p-3 @(Model.ActionRequired > 0 ? "card-action-required" : "")">
+                        <div class="card dash-card p-3 @(Model!.ActionRequired > 0 ? "card-action-required" : "")">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted small mb-1 fw-semibold">Action Required</p>
-                                    <h3 class="mb-0 fw-bold">@Model.ActionRequired</h3>
+                                    <h3 class="mb-0 fw-bold">@(Model?.ActionRequired ?? 0)</h3>
                                 </div>
                                 <div class="bg-light p-3 rounded-circle text-danger">
                                     <i class="fa-solid fa-circle-exclamation fs-4"></i>
@@ -178,7 +170,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted small mb-1 fw-semibold">Completed</p>
-                                    <h3 class="mb-0 fw-bold">@Model.Completed</h3>
+                                    <h3 class="mb-0 fw-bold">@(Model?.Completed ?? 0)</h3>
                                 </div>
                                 <div class="bg-success-subtle p-3 rounded-circle" style="color: var(--fz-green);">
                                     <i class="fa-solid fa-check-double fs-4"></i>
@@ -194,18 +186,18 @@
                         <div class="card dash-card p-4">
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <h5 class="fw-bold mb-0">Current Application Status</h5>
-                                @if (Model.CurrentActiveApplication != null)
+                                @if (Model!.CurrentActiveApplication != null)
                                 {
-                                    <span class="badge bg-dark px-3 py-2">@Model.CurrentActiveApplication.ServiceName</span>
+                                    <span class="badge bg-dark px-3 py-2">@(Model?.CurrentActiveApplication?.ServiceName ?? "No active application")</span>
                                 }
                             </div>
                             
-                            @if (Model.CurrentActiveApplication != null)
+                            @if (Model!.CurrentActiveApplication != null)
                             {
                                 <div class="tracker-wrapper">
                                     <div class="tracker-line"></div>
                                     @{
-                                        var status = Model.CurrentActiveApplication.Status;
+                                        var status = Model!.CurrentActiveApplication!.Status;
                                         var submittedClass = status >= ApplicationStatus.Submitted ? "completed" : "";
                                         var reviewClass = status >= ApplicationStatus.UnderReview ? (status == ApplicationStatus.Submitted ? "active" : "completed") : "";
                                         var paymentClass = status >= ApplicationStatus.WaitingPayment ? (status == ApplicationStatus.UnderReview ? "active" : "completed") : "";
@@ -261,7 +253,7 @@
                                 <h6 class="fw-bold mb-0">Recent Activity</h6>
                             </div>
                             <div class="card-body p-0">
-                                @if (Model.RecentActivity.Any())
+                                @if (Model!.RecentActivity.Any())
                                 {
                                     <div class="table-responsive">
                                         <table class="table table-borderless table-hover align-middle mb-0">
@@ -273,10 +265,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach (var item in Model.RecentActivity)
+                                                @foreach (var item in Model!.RecentActivity)
                                                 {
                                                     <tr class="border-bottom">
-                                                        <td class="ps-4 py-3 fw-semibold">@item.ApplicationType</td>
+                                                        <td class="ps-4 py-3 fw-semibold">
+                                                            <a href="@Url.Action("Details", "Services", new { id = item.ApplicationId })" class="text-decoration-none link-dark">@item.ApplicationType</a>
+                                                        </td>
                                                         <td class="py-3 text-muted">@item.DateSubmitted.ToString("MMM dd, yyyy")</td>
                                                         <td class="pe-4 py-3">
                                                             @{
@@ -354,38 +348,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const sidebar = document.getElementById('sidebar');
-            const wrapper = document.getElementById('wrapper');
-            
-            const desktopToggleBtn = document.getElementById('sidebarCollapseDesktop');
-            desktopToggleBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('collapsed');
-                wrapper.classList.toggle('sidebar-collapsed');
-                
-                const icon = desktopToggleBtn.querySelector('i');
-                if (sidebar.classList.contains('collapsed')) {
-                    icon.classList.remove('fa-bars-staggered');
-                    icon.classList.add('fa-bars');
-                } else {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-bars-staggered');
-                }
-            });
-
-            const overlay = document.getElementById('sidebarOverlay');
-            const mobileToggleBtn = document.getElementById('sidebarCollapseMobile');
-
-            function toggleMobileSidebar() {
-                sidebar.classList.toggle('active');
-                overlay.classList.toggle('active');
-            }
-
-            mobileToggleBtn.addEventListener('click', toggleMobileSidebar);
-            overlay.addEventListener('click', toggleMobileSidebar);
-        });
-    </script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
 </body>
 </html>

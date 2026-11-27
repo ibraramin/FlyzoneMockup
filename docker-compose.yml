@@ -1,23 +1,24 @@
-version: '3.8'
-
 services:
   web:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5000:80"
+      - "5000:8080"
     volumes:
-      # Persist SQLite database across container restarts
+      # Persist SQLite database and Data Protection keys across container restarts
       - ./App_Data:/app/Data
-      # Persist uploaded files across container restarts
-      - ./wwwroot/uploads:/app/wwwroot/uploads
+      # Persist uploaded files across container restarts (outside wwwroot)
+      - ./App_Data/uploads:/app/Data/uploads
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_HTTP_PORTS=8080
       - ConnectionStrings__DefaultConnection=Data Source=/app/Data/flyzone.db
+      - DataProtection__KeysPath=/app/Data/keys
+      - Uploads__Path=/app/Data/uploads
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
       interval: 30s
       timeout: 10s
       retries: 3

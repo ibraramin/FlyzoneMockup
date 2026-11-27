@@ -39,10 +39,15 @@ namespace Flyzone.Data
                 .HasForeignKey<DrivingLicenseRenewalForm>(f => f.ServiceApplicationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Seed Data: Populate the catalog so we have something to test with
+            // Seed Data: the public catalog is read from these rows, not hard-coded cards.
+            // Ids 1 and 2 are kept stable because the two application forms reference them.
             builder.Entity<TypingService>().HasData(
-                new TypingService { Id = 1, Category = "Visa & Immigration", ServiceName = "Golden Visa Application", BaseFee = 2800.00m, Description = "10-year residency visa processing." },
-                new TypingService { Id = 2, Category = "RTA & Traffic", ServiceName = "Driving License Renewal", BaseFee = 320.00m, Description = "Renew your UAE driving license." }
+                new TypingService { Id = 1, Category = "Visa & Immigration", ServiceName = "Golden Visa Application", BaseFee = 2800.00m, Description = "10-year residency visa processing for investors and specialists." },
+                new TypingService { Id = 2, Category = "RTA & Traffic", ServiceName = "Driving License Renewal", BaseFee = 320.00m, Description = "Renew your UAE driving license, including eye-test coordination." },
+                new TypingService { Id = 3, Category = "Identity Documents", ServiceName = "Emirates ID Renewal", BaseFee = 180.00m, Description = "Renew or replace your Emirates ID with biometric capture." },
+                new TypingService { Id = 4, Category = "Visa & Immigration", ServiceName = "Work Permit & Visa", BaseFee = 650.00m, Description = "New work permits, visa transfers and cancellations." },
+                new TypingService { Id = 5, Category = "Business Services", ServiceName = "Business License Setup", BaseFee = 1450.00m, Description = "Company formation, trade-name reservation and license issuance." },
+                new TypingService { Id = 6, Category = "Document Services", ServiceName = "Document Attestation", BaseFee = 120.00m, Description = "Certificate attestation, certified translation and courier handling." }
             );
         }
     }
