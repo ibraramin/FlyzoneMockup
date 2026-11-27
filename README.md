@@ -15,7 +15,7 @@ It is built for .NET developers, hiring teams, and anyone who wants a server-ren
 
 [![Launch video](docs/assets/brag.jpg)](docs/assets/brag.mp4)
 
-https://github.com/ibraramin/Flyzone/raw/main/docs/assets/brag.mp4
+https://github.com/user-attachments/assets/05985747-ab38-4344-838a-f82d39ff2626
 
 
 ---
