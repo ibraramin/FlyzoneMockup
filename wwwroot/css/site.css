@@ -94,9 +94,6 @@ body {
 .hero-section {
     position: relative;
     background-color: var(--fz-light-bg);
-    background-image: url('https://www.transparenttextures.com/patterns/world-map.png'); 
-    background-size: cover;
-    background-position: center;
     height: 80vh;
     min-height: 600px;
     display: flex;
@@ -146,54 +143,7 @@ body {
     margin-bottom: 2rem;
 }
 
-/* Map Markers */
-.map-markers-container {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 2;
-    pointer-events: none;
-}
-
-.pulse-dot {
-    width: 12px; height: 12px;
-    background-color: var(--fz-red);
-    border-radius: 50%;
-    position: absolute;
-    box-shadow: 0 0 10px var(--fz-red);
-    animation: pulse 2s infinite;
-}
-
-.pulse-dot::after {
-    content: attr(data-location);
-    position: absolute;
-    top: 15px; left: -10px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: var(--fz-black);
-    background: rgba(255,255,255,0.8);
-    padding: 2px 5px;
-    border-radius: 4px;
-}
-
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(255, 0, 0, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
-}
-
-/* Marker Locations */
-.dot-dubai { top: 50%; left: 55%; }
-.dot-ajman { top: 48%; left: 56%; background-color: var(--fz-green); animation: pulseGreen 2s infinite; }
-.dot-ksa { top: 55%; left: 45%; }
-.dot-qatar { top: 52%; left: 50%; }
-.dot-india { top: 60%; left: 75%; }
-.dot-bangladesh { top: 55%; left: 82%; }
-
-@keyframes pulseGreen {
-    0% { box-shadow: 0 0 0 0 rgba(0, 115, 47, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(0, 115, 47, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 115, 47, 0); }
-}
+/* Live map markers are Leaflet divIcons; see .map-dot and .map-label below. */
 
 /* --- Services & Utilities --- */
 .section-title {
@@ -285,6 +235,12 @@ footer a:hover { color: var(--fz-green); }
     width: 100%;
     height: 100%;
     z-index: 0;
+}
+
+/* Leaflet divIcon host: the visible contents are .map-dot and .map-label. */
+.custom-leaflet-icon {
+    background: transparent;
+    border: none;
 }
 
 /* Center the label under the region marker */

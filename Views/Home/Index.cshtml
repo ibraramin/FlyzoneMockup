@@ -8,7 +8,8 @@
 }
 
 @section Styles {
-    <!-- Link to the external CSS file -->
+    <!-- Local Leaflet 1.9.4 plus the landing stylesheet; no inline styles. -->
+    <link rel="stylesheet" href="~/lib/leaflet/1.9.4/leaflet.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/flyzone-landing.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 }
@@ -231,6 +232,7 @@
 </footer>
 
 @section Scripts {
-    <!-- Static, key-free region graphic (CSP forbids inline scripts). -->
+    <!-- Both files are static: CSP forbids inline scripts. -->
+    <script src="~/lib/leaflet/1.9.4/leaflet.js" asp-append-version="true"></script>
     <script src="~/js/home-map.js" asp-append-version="true"></script>
 }

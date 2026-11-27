@@ -1,19 +1,21 @@
 # Flyzone
 
-[![CI](https://github.com/ibraramin/FlyzoneMockup/actions/workflows/ci.yml/badge.svg)](https://github.com/ibraramin/FlyzoneMockup/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/github/license/ibraramin/FlyzoneMockup)](LICENSE)
+[![CI](https://github.com/ibraramin/Flyzone/actions/workflows/ci.yml/badge.svg)](https://github.com/ibraramin/Flyzone/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/github/license/ibraramin/Flyzone)](LICENSE)
 
 **Flyzone is a self-contained ASP.NET Core 10 MVC application for UAE tourism and typing services.** It walks through a service catalog, two application forms, document uploads, status tracking, and a role-gated admin review queue.
 
+![Project showcase](https://github.com/ibraramin/Flyzone/releases/download/v0.1.0/showcase.gif)
+
 It is built for .NET developers, hiring teams, and anyone who wants a server-rendered MVC reference app with practical security controls that can be started with one command.
+
+[![Launch video](https://github.com/ibraramin/Flyzone/releases/download/v0.1.0/brag.jpg)](https://github.com/ibraramin/Flyzone/releases/download/v0.1.0/brag.mp4)
 
 ![Flyzone landing page](imgs/Flyzone-Landing-Page.png)
 
-[![Launch video](https://github.com/ibraramin/FlyzoneMockup/releases/download/v0.1.0/brag.jpg)](https://github.com/ibraramin/FlyzoneMockup/releases/download/v0.1.0/brag.mp4)
+[![Launch video](docs/assets/brag.jpg)](docs/assets/brag.mp4)
 
-[Watch the 20-second launch video](https://github.com/ibraramin/FlyzoneMockup/releases/download/v0.1.0/brag.mp4)
-
-![Project showcase](https://github.com/ibraramin/FlyzoneMockup/releases/download/v0.1.0/showcase.gif)
+https://github.com/ibraramin/Flyzone/raw/main/docs/assets/brag.mp4
 
 
 ---
@@ -39,8 +41,8 @@ It is built for .NET developers, hiring teams, and anyone who wants a server-ren
 ### Run locally
 
 ```bash
-git clone https://github.com/ibraramin/FlyzoneMockup.git
-cd FlyzoneMockup
+git clone https://github.com/ibraramin/Flyzone.git
+cd Flyzone
 dotnet restore
 dotnet build --no-restore
 dotnet test
@@ -125,7 +127,7 @@ flowchart TB
 - Accounts are local Identity accounts. Email confirmation, password recovery, and external sign-in providers are not part of this application.
 - Status changes are explicit admin actions recorded in `ApplicationHistory`. Payments, appointments, and notifications are not part of this application.
 - Document handling covers upload, owner-scoped listing, and owner-gated download. Editing, sharing, and versioning are not part of this application.
-- The catalog is seeded through EF Core migrations. The hero uses a self-contained region graphic, so it needs no map provider or API key.
+- The catalog is seeded through EF Core migrations. The hero uses a locally vendored Leaflet 1.9.4 map with keyless OpenStreetMap tiles and no API key; the tiles need network access.
 - Bootstrap 5.3 and Font Awesome 6.4 load from public CDNs on most pages, with local bundles also available under `wwwroot/lib`.
 
 ---
@@ -133,7 +135,7 @@ flowchart TB
 ## Project structure
 
 ```
-FlyzoneMockup/
+Flyzone/
 ├── Controllers/    Account, Home, Services, and Admin controllers
 ├── Data/           EF Core DbContext and the opt-in demo seeder
 ├── Migrations/     Code First migrations, including the catalog seed
@@ -165,7 +167,7 @@ Released under the [MIT License](LICENSE).
 
 ## Links
 
-- Repository: https://github.com/ibraramin/FlyzoneMockup
-- Issues: https://github.com/ibraramin/FlyzoneMockup/issues
-- CI workflow: https://github.com/ibraramin/FlyzoneMockup/actions/workflows/ci.yml
+- Repository: https://github.com/ibraramin/Flyzone
+- Issues: https://github.com/ibraramin/Flyzone/issues
+- CI workflow: https://github.com/ibraramin/Flyzone/actions/workflows/ci.yml
 - Design notes and decision records: [docs/](docs/), [docs/adr/](docs/adr/)

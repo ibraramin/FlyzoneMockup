@@ -82,10 +82,10 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 // container restarts (the default key store is ephemeral inside a container).
 var dataProtectionKeysPath = builder.Configuration["DataProtection:KeysPath"]
     ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "FlyzoneMockup", "keys");
+        "Flyzone", "keys");
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath))
-    .SetApplicationName("FlyzoneMockup");
+    .SetApplicationName("Flyzone");
 
 // Harden the Identity application cookie. Secure cookies are only forced outside
 // Development so local HTTP and the integration-test host keep working.
@@ -165,14 +165,17 @@ app.Use(async (context, next) =>
     context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
     
     // Content Security Policy (CSP). Page scripts are served from static files;
-    // inline/eval scripts are not allowed. CDNs are required by the current UI.
+    // inline/eval scripts are not allowed. Leaflet is vendored locally, so no
+    // script or style CDN is needed for the map. The only map tile origin is
+    // the keyless OpenStreetMap endpoint; ui-avatars.com serves the existing
+    // dashboard avatar images. No other tile provider is permitted.
     context.Response.Headers["Content-Security-Policy"] = 
         "default-src 'self'; " +
         "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
         "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " +
-        "img-src 'self' data: https:; " +
+        "img-src 'self' data: https://tile.openstreetmap.org https://ui-avatars.com; " +
         "font-src 'self' https://cdnjs.cloudflare.com; " +
-        "connect-src 'self'; " +
+        "connect-src 'self' https://tile.openstreetmap.org; " +
         "frame-ancestors 'none';";
     
     await next();
