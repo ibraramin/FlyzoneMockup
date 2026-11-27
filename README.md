@@ -5,16 +5,13 @@
 
 **Flyzone is a self-contained ASP.NET Core 10 MVC application for UAE tourism and typing services.** It walks through a service catalog, two application forms, document uploads, status tracking, and a role-gated admin review queue.
 
-![Project showcase](https://github.com/ibraramin/Flyzone/releases/download/v0.1.0/showcase.gif)
-
-It is built for .NET developers, hiring teams, and anyone who wants a server-rendered MVC reference app with practical security controls that can be started with one command.
-
-
-![Flyzone landing page](imgs/Flyzone-Landing-Page.png)
-
 [![Launch video](docs/assets/brag.jpg)](docs/assets/brag.mp4)
 
 https://github.com/user-attachments/assets/05985747-ab38-4344-838a-f82d39ff2626
+
+![Flyzone landing page](imgs/Flyzone-Landing-Page.png)
+
+It is built for .NET developers, hiring teams, and anyone who wants a server-rendered MVC reference app with practical security controls that can be started with one command.
 
 
 ---
@@ -101,6 +98,8 @@ flowchart TB
 ---
 
 ## Screenshots
+
+![Project showcase](https://github.com/ibraramin/Flyzone/releases/download/v0.1.0/showcase.gif)
 
 | Landing page | Login | Registration |
 |---|---|---|
